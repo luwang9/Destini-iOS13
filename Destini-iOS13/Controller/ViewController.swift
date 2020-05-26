@@ -13,12 +13,26 @@ class ViewController: UIViewController {
     @IBOutlet weak var storyLabel: UILabel!
     @IBOutlet weak var choice1Button: UIButton!
     @IBOutlet weak var choice2Button: UIButton!
-    
+    var storyBrain = StoryBrain()
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUI()
 
     }
 
-
+    @IBAction func choiceMade(_ sender: UIButton) {
+        sender.backgroundColor = UIColor.green
+        let buttonChosenText = sender.currentTitle!
+        storyBrain.nextStory(buttonChosenText)
+        Timer.scheduledTimer(timeInterval: 0.2, target: self,selector: #selector(updateUI),userInfo: nil,repeats: false)
+    }
+    @objc func updateUI()  {
+        storyLabel.text = storyBrain.getInfo().title
+        choice1Button.setTitle(storyBrain.getInfo().choice1, for: .normal)
+        choice2Button.setTitle(storyBrain.getInfo().choice2, for: .normal)
+        choice1Button.backgroundColor = UIColor.clear
+        choice2Button.backgroundColor = UIColor.clear
+    }
+    
 }
 
